@@ -4,8 +4,8 @@
 AV=android-8.0.0_r33
 DIST=oreo
 TARGET=eng
-USERNAME="Juan Triff"
-USEREMAIL="jjtriff@gmail.com"
+USERNAME="john doe"
+USEREMAIL="jd@gmail.com"
 
 #memory for the java VM
 JMEM=1500m
