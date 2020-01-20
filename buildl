@@ -1,0 +1,72 @@
+#!/bin/bash
+
+apt update && apt install --yes php mosh byobu && ufw allow 60000:61000/udp && byobu-enable && logout
+
+
+
+wget 'https://dl.google.com/android/repository/platform-tools-latest-linux.zip' && \
+apt install --yes unzip && \
+unzip platform-tools-latest-linux.zip -d ~ && \
+echo '# add Android SDK platform tools to path
+if [ -d "$HOME/platform-tools" ] ; then
+    PATH="$HOME/platform-tools:$PATH"
+fi' >> ~/.profile && \
+source ~/.profile
+
+# creating dev env
+
+apt install --yes bc bison build-essential brotli ccache curl flex g++-multilib gcc-multilib git gnupg gperf imagemagick lib32ncurses5-dev lib32readline-dev lib32z1-dev liblz4-tool libncurses5-dev libsdl1.2-dev libssl-dev libwxgtk3.0-dev libxml2 libxml2-utils lzop pngcrush rsync schedtool squashfs-tools xsltproc zip zlib1g-dev python openjdk-11-jdk \
+&& git config --global user.email "jd@gmail.com" \
+&& git config --global user.name "john doe" && \
+mkdir -p ~/bin && \
+mkdir -p ~/android/lineage && \
+curl https://storage.googleapis.com/git-repo-downloads/repo > ~/bin/repo && \
+chmod a+x ~/bin/repo && \
+echo '# set PATH so it includes user
+if [ -d "$HOME/bin" ] ; then
+    PATH="$HOME/bin:$PATH"
+fi' >> ~/.profile  && \
+source ~/.profile 
+
+
+cd ~/android/lineage && \
+repo init -u https://github.com/LineageOS/android.git -b lineage-15.1 && \
+echo 'Starting repo sync at '$(date) && \
+repo sync && \
+echo '##*## HEY JJ HERE ##*##' && \
+echo 'repo sync ended at '$(date) \
+cd ~/android/lineage && \
+source build/envsetup.sh && \
+breakfast w5
+
+# extracting proprietary blobs
+#    cd 
+#    mkdir blobs
+#    cd blobs
+#    wget 'https://mirrorbits.lineageos.org/full/d802/20190819/lineage-16.0-20190819-nightly-d802-signed.zip'
+#    unzip lineage-16.0-20190819-nightly-d802-signed.zip system.*
+#    brotli --decompress  -o system.new.dat system.new.dat.br 
+#     git clone https://github.com/xpirt/sdat2img
+#     python sdat2img/sdat2img.py system.transfer.list system.new.dat system.img
+# mkdir system/
+# mount system.img system/
+
+cd ~/android/lineage/vendor/
+git clone https://github.com/TheMuppets/proprietary_vendor_lge.git -b cm-14.1
+mv proprietary_vendor_lge lge
+cd ~/android/lineage/
+breakfast w5
+
+
+
+
+    
+
+#turning on cache    
+export USE_CCACHE=1
+ccache -M 50G
+
+export ANDROID_JACK_VM_ARGS="-Dfile.encoding=UTF-8 -XX:+TieredCompilation"               
+croot 
+brunch w5
+
